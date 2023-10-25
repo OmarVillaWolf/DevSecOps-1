@@ -1,4 +1,4 @@
-name: GOAT Compile
+name: GOAT Compile Report
 
 on:
   push:
@@ -6,20 +6,27 @@ on:
       - main
 
 jobs:
-  build:
+  depchecktest:
     runs-on: ubuntu-latest
+    name: depecheck_test
     steps:
-      - name: "Obteniendo utlima version de codigo"
-        uses: actions/checkout@v3
-
-      - name: "Instalacion Java"
-        uses: actions/setup-java@v3
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build project with Maven
+        run: mvn clean install
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
         with:
-          distribution: "temurin"
-          java-version: "17"
-
-      - name: "Compilacion"
-        run: ./mvnw clean install 
-
-      - name: "verificar"
-        run: ls -ltra target
+          project: 'test'
+          path: '.'
+          format: 'HTML'
+          out: 'reports' # this is the default, no need to specify unless you wish to override it
+          args: >
+            --failOnCVSS 7
+            --enableRetired
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
