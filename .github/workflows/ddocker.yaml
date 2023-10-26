@@ -1,13 +1,17 @@
 name: Docker
 
-on:
-  push:
+on: 
+  push: 
     branches:
       - main
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Creando"
-        uses: docker pull php:7.2-apache
+jobs: 
+  build: 
+    runs-on: php-7.2
+    steps: 
+      - run: docker pull php:7.2-apache
+
+  test: 
+    runs-on: php-7.2
+    steps: 
+      - run: docker images
