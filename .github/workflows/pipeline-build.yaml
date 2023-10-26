@@ -1,4 +1,4 @@
-name: GOAT Compile Report
+name: Horus
 
 on:
   push:
@@ -6,27 +6,14 @@ on:
       - main
 
 jobs:
-  depchecktest:
+  build:
     runs-on: ubuntu-latest
-    name: depecheck_test
     steps:
-      - name: Checkout
+      - name: "Obteniendo última versión del código"
         uses: actions/checkout@v2
-      - name: Build project with Maven
-        run: mvn clean install
-      - name: Depcheck
-        uses: dependency-check/Dependency-Check_Action@main
-        id: Depcheck
-        with:
-          project: 'test'
-          path: '.'
-          format: 'HTML'
-          out: 'reports' # this is the default, no need to specify unless you wish to override it
-          args: >
-            --failOnCVSS 7
-            --enableRetired
-      - name: Upload Test results
-        uses: actions/upload-artifact@master
-        with:
-           name: Depcheck report
-           path: ${{github.workspace}}/reports
+
+      - name: "Instalar Horus"
+        run: curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-beta
+
+      - name: "Iniciar Horus"
+        run: horusec start -p="./" --return-error -e="false"
