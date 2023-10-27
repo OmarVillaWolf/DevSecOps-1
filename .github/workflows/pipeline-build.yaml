@@ -69,7 +69,7 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
       
-      - name: Parando y eliminando contenedor
+      - name: Parando y eliminando contenedorr
         run: |
           docker container stop webgoat
           docker container rm webgoat
