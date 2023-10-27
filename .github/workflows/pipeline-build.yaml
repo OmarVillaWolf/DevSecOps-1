@@ -50,6 +50,13 @@ jobs:
           docker build -t prueba .
           docker images
           docker run --name webgoat -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 prueba
-          curl http://localhost:8080
+          
+      - name: Acuasecurity
+        run: |
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
+          sudo dpkg -i trivy_0.18.3_Linux-64bit.deb
+          trivy image prueba
           docker container stop webgoat
           docker container rm webgoat
+
+
