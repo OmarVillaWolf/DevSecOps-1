@@ -1,42 +1,51 @@
-name: GOAT
-
-on: 
-  push: 
+name: GOAT Compile
+ 
+on:
+  push:
     branches:
       - main
-
-jobs: 
-  build: 
+ 
+jobs:
+  integration:
     runs-on: ubuntu-latest
-    steps: 
-      - run: echo "Fase de construccion"
-
-  test: 
-    runs-on: ubuntu-latest
-    steps: 
-      - run: echo "Fase de pruebas"
-
-  ga: 
-    runs-on: ubuntu-latest
-    steps: 
-      - run: echo "Fase de pruebas QA"
-
-  prod: 
-    runs-on: ubuntu-latest
-    steps: 
-      - run: echo "Fase de produccion"
-
-      - name: "Obteniendo última versión del código"
-        uses: actions/checkout@v2
-
-      - name: "Instalar Horus"
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+ 
+    steps:
+      - name: "Obteniendo ultima version del codigo"
+        uses: actions/checkout@v3
+ 
+      - name: "Instalacion Java"
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+ 
+      - name: "Compilacion"
+        run: ./mvnw clean install
+ 
+      - name: "Verificar paquete"
+        run: ls -ltra target
+ 
+      - name: "Dependency Check"
+        uses: dependency-check/Dependency-Check_Action@main
+        env:
+          JAVA_HOME: /opt/jdk
+        id: Depcheck
+        with:
+          project: 'WebGoat'
+          path: '.'
+          format: 'HTML'
+          out: 'reports'
+ 
+      - name: "Verificar reporte"
+        run: ls -ltra reports
+      - name: "Horusec"
         run: curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-beta
-
-      - name: "Iniciar Horus"
-        run: horusec start -p="./" --return-error -e="false"
-
-
-      - name: Build Docker
+ 
+      - name: Build and run Docker containers
         run: |
           docker build -t prueba .
-          docker image ls
+          docker images
