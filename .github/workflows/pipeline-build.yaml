@@ -63,8 +63,11 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'prueba'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          timeout: 10m0s
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+          scanners: vuln,secret,config
+        conyinue-on-error: true
       
       - name: Parando y eliminando contenedorr
         run: |
