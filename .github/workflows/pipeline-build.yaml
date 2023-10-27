@@ -49,5 +49,5 @@ jobs:
         run: |
           docker build -t prueba .
           docker images
-          docker run -dit -p 80:80 --name WebGoat -v "$PWD":/var/www/html prueba
-          docker exec -it WebGoat bash
+          docker run -d -p 80:80 --name WebGoat -v "$PWD":/var/www/html prueba
+          
