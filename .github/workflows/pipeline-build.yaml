@@ -45,12 +45,13 @@ jobs:
       - name: "Horusec"
         run: curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-beta
  
-      - name: Build and run Docker containers
+      - name: Contenedor Docker
         run: |
           docker build -t prueba .
           docker images
           docker run --name webgoat -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 prueba
-          
+          docker ps -a
+
       - name: Acuasecurity
         run: |
           wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
