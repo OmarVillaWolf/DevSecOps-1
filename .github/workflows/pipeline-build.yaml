@@ -67,7 +67,7 @@ jobs:
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
           scanners: vuln,secret,config
-        conyinue-on-error: true
+        continue-on-error: true
       
       - name: Parando y eliminando contenedor
         run: |
