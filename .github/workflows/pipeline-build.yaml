@@ -59,19 +59,12 @@ jobs:
           sudo dpkg -i trivy_0.18.3_Linux-64bit.deb
         # trivy image prueba
 
-      - name: Run Trivy vulnerability scanner in repo mode
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
-          ignore-unfixed: true
+          image-ref: 'prueba'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
       
       - name: Parando y eliminando contenedorr
         run: |
