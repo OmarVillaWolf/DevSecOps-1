@@ -69,7 +69,7 @@ jobs:
           scanners: vuln,secret,config
         conyinue-on-error: true
       
-      - name: Parando y eliminando contenedorr
+      - name: Parando y eliminando contenedor
         run: |
           docker container stop webgoat
           docker container rm webgoat
