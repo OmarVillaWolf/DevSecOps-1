@@ -47,5 +47,6 @@ jobs:
  
       - name: Build and run Docker containers
         run: |
-          docker build -t prueba .
+          docker build -t WebGoat .
           docker images
+          docker run -d WebGoat
