@@ -26,18 +26,6 @@ jobs:
     steps: 
       - run: echo "Fase de produccion"
 
-
-name: Horus
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: "Obteniendo última versión del código"
         uses: actions/checkout@v2
 
@@ -48,17 +36,7 @@ jobs:
         run: horusec start -p="./" --return-error -e="false"
 
 
-name: Dockerr
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build and run Docker containers
+      - name: Build Docker
         run: |
           docker build -t prueba .
           docker image ls
