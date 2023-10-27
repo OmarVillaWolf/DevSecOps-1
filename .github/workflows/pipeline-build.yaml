@@ -1,3 +1,32 @@
+name: GOAT
+
+on: 
+  push: 
+    branches:
+      - main
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo "Fase de construccion"
+
+  test: 
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo "Fase de pruebas"
+
+  ga: 
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo "Fase de pruebas QA"
+
+  prod: 
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo "Fase de produccion"
+
+
 name: Horus
 
 on:
@@ -17,3 +46,19 @@ jobs:
 
       - name: "Iniciar Horus"
         run: horusec start -p="./" --return-error -e="false"
+
+
+name: Dockerr
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and run Docker containers
+        run: |
+          docker build -t prueba .
+          docker image ls
