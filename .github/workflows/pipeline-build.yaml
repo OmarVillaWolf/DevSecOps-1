@@ -51,13 +51,23 @@ jobs:
           docker build -t prueba .
           docker images
           docker run --name webgoat -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 prueba
-        # docker ps -a
+          docker ps -a
 
       - name: Acuasecurity
         run: |
           wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
           sudo dpkg -i trivy_0.18.3_Linux-64bit.deb
-          trivy image prueba
+        # trivy image prueba
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'prueba'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
       
       - name: Parando y eliminando contenedor
         run: |
