@@ -34,5 +34,16 @@ jobs:
           docker build -t prueba .
           docker images
           docker run --name webgoat -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:9090:9090 prueba
-          docker ps -a
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.us-east-2 }}
+
+      - name: Cargar imagen a ECR
+        run: |
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/w2f1o6m8
+          docker tag omar-repo-aws:latest public.ecr.aws/w2f1o6m8/prueba:latest
+          docker push public.ecr.aws/w2f1o6m8/prueba:latest
