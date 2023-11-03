@@ -56,3 +56,8 @@ jobs:
           terraform plan
           terraform apply
           terrform destroy 
+
+      - name: Parando y eliminando contenedor
+        run: |
+          docker container stop webgoat
+          docker container rm webgoat
