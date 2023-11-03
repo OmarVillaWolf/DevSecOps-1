@@ -40,10 +40,16 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.us-east-2 }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Cargar imagen a ECR
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/w2f1o6m8
           docker tag prueba:latest public.ecr.aws/w2f1o6m8/prueba:latest
           docker push public.ecr.aws/w2f1o6m8/prueba:latest
+
+
+      - name: Parando y eliminando contenedor
+        run: |
+          docker container stop webgoat
+          docker container rm webgoat
