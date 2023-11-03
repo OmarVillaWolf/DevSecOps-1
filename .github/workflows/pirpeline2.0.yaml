@@ -50,12 +50,19 @@ jobs:
 
       - name: Aprovisionamiento de Terraform
         run: |
-          cd ../../Terraform/
+          cd Terraform/
           terraform init 
           terraform validate
           terraform plan
           terraform apply
           terrform destroy 
+
+      - name: Ejecutar Ansible 
+        run: |
+          sudo apt install ansible -y
+          pip3 install "ansible-lint"
+          cd Ansible/
+          ansible-playbook -i inventario server.yml --become 
 
       - name: Parando y eliminando contenedor
         run: |
