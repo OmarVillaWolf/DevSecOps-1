@@ -48,8 +48,11 @@ jobs:
           docker tag prueba:latest public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
           docker push public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
 
-
-      - name: Parando y eliminando contenedor
+      - name: Aprovisionamiento de Terraform
         run: |
-          docker container stop webgoat
-          docker container rm webgoat
+          cd ../../Terraform/
+          terraform init 
+          terraform validate
+          terraform plan
+          terraform apply
+          terrform destroy 
