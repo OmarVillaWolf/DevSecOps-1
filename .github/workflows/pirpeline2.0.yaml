@@ -45,8 +45,8 @@ jobs:
       - name: Cargar imagen a ECR
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/w2f1o6m8
-          docker tag prueba:latest public.ecr.aws/w2f1o6m8/prueba:latest
-          docker push public.ecr.aws/w2f1o6m8/prueba:latest
+          docker tag prueba:latest public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
+          docker push public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
 
 
       - name: Parando y eliminando contenedor
