@@ -53,18 +53,27 @@ jobs:
           cd Terraform/
           terraform init 
           terraform validate
-          terraform plan
-          terraform apply
-          terrform destroy 
+          terraform plan -out tfplan
+          terraform apply tfplan >> tfplan.txt
+          ip_terra=$( cat tfplan.txt | grep My_ip | xargs | cut -d '=' -f 2)
+          sed -i "s/IP/$ip_terra/g" ../Ansible/inventario          
+          
 
       - name: Ejecutar Ansible 
+        env: 
+          PRIVATE_KEY: ${{secrets.VILLALOBOS}}
         run: |
           sudo apt install ansible -y
           pip3 install "ansible-lint"
           cd Ansible/
+          echo "$PRIVATE_KEY" >> $HOME/Villalobos-aws.pem
+          sudo chmod 600 $HOME/Villalobos-aws.pem
+          export ANSIBLE_HOST_KEY_CHECKING=False
           ansible-playbook -i inventario server.yml --become 
+        continue-on: true
 
-      - name: Parando y eliminando contenedor
+      - name: Destruyendo Terraform
         run: |
-          docker container stop webgoat
-          docker container rm webgoat
+          cd Terraform/
+          terrform plan -destroy -out tfplan
+          terraform apply tfplan 
