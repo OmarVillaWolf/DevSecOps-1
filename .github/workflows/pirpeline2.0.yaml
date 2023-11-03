@@ -69,7 +69,7 @@ jobs:
           echo "$PRIVATE_KEY" >> $HOME/Villalobos-aws.pem
           sudo chmod 600 $HOME/Villalobos-aws.pem
           export ANSIBLE_HOST_KEY_CHECKING=False
-          ansible-playbook -i inventario server.yml --become 
+          ansible-playbook -i inventario server.yml --become --private-key $HOME/Villalobos-aws.pem
         continue-on-error: true
 
       - name: Arachni
