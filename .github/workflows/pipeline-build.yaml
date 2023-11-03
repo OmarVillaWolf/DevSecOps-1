@@ -59,7 +59,7 @@ jobs:
           sudo dpkg -i trivy_0.18.3_Linux-64bit.deb
         # trivy image prueba
 
-      - name: Escaneo de culnerabilidades con Trivy
+      - name: Escaneo de Vulnerabilidades con Trivy
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'prueba'
