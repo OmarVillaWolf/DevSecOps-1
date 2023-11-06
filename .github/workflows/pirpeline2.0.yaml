@@ -57,7 +57,7 @@ jobs:
           terraform plan -out tfplan
           terraform apply tfplan >> tfplan.txt
           ip_terra=$( cat tfplan.txt | grep My_ip | xargs | cut -d '=' -f 2)
-          sed -i "s/IP/$ip_terra/g" ../Ansible/inventario    
+          sed -i "s/IPP/$ip_terra/g" ../Ansible/inventario    
 
       - name: Checkov
         run: |
