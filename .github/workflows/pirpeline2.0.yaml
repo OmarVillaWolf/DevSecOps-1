@@ -85,13 +85,12 @@ jobs:
       - name: Arachni
         run: |
           cd Terraform/
-          sudo apt update
           wget https://github.com/Arachni/arachni/releases/download/v1.6.1.3/arachni-1.6.1.3-0.6.1.1-linux-x86_64.tar.gz
           tar -xvf arachni-1.6.1.3-0.6.1.1-linux-x86_64.tar.gz
           ip_aws=$( cat tfplan.txt | grep My_ip | xargs | cut -d '=' -f 2)
           curl http://$ip_aws:8080/WebGoat/login
           echo $ip_aws
-          ./arachni-1.6.1.3-0.6.1.1/bin/arachni http://$ip_aws:8080/WebGoat/login
+          ./arachni-1.6.1.3-0.6.1.1/bin/arachni http://ip_aws:8080/WebGoat/login
         continue-on-error: true
 
       - name: Destruyendo Terraform
