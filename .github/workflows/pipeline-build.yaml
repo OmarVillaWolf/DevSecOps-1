@@ -37,8 +37,14 @@ jobs:
         with:
           project: 'WebGoat'
           path: '.'
-          format: 'HTML'
+          format: 'SARIF'
           out: 'reports'
+
+      - name: "Subir SARIF"
+        uses: github/codeql-action/upload-sarif@v2        
+        with:          # Path to SARIF file relative to the root of the repository          
+          sarif_file: ${{github.workspace}}/reports
+          checkout_path: ${{github.workspace}}/reports
  
       - name: "Verificar reporte"
         run: ls -ltra reports
