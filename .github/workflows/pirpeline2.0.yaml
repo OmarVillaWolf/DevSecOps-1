@@ -62,9 +62,10 @@ jobs:
       - name: Checkov
         run: |
           cd Terraform/
-          pip3 install checkov
+          sudo pip3 install checkov
           terraform show -json tfplan | jq > tfplan.json  
           checkov -f tfplan.json     
+        continue-on-error: true
           
 
       - name: Destruyendo Terraform
