@@ -50,13 +50,13 @@
 
     - name: Pull default Docker image
       community.docker.docker_image:
-        name: public.ecr.aws/w2x5h8r5/demo1:latest
+        name: public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
         source: pull
 
     - name: Create default containers
       community.docker.docker_container:
         name: WebGoat
-        image: public.ecr.aws/w2x5h8r5/demo1:latest
+        image: public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
         state: started
         ports: 
           - '8080:8080'

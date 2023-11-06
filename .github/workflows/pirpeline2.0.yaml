@@ -48,6 +48,7 @@ jobs:
           docker tag prueba:latest public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
           docker push public.ecr.aws/w2f1o6m8/omar-repo-aws:latest
 
+
       - name: Aprovisionamiento de Terraform
         run: |
           cd Terraform/
@@ -56,19 +57,21 @@ jobs:
           terraform plan -out tfplan
           terraform apply tfplan >> tfplan.txt
           ip_terra=$( cat tfplan.txt | grep My_ip | xargs | cut -d '=' -f 2)
-          sed -i "s/IP/$ip_terra/g" ../Ansible/inventario          
+          sed -i "s/IP/$ip_terra/g" ../Ansible/inventario    
+
+      - name: Checkov
+        run: |
+          cd Terraform/
+          pip3 install checkov
+          terraform show -json tfplan | jq > tfplan.json  
+          checkov -f tfplan.json     
           
 
-      - name: Ejecutar Ansible 
-        env: 
-          PRIVATE_KEY: ${{secrets.VILLALOBOS}}
+      - name: Destruyendo Terraform
         run: |
-          sudo apt install ansible -y
-          pip3 install "ansible-lint"
-          cd Ansible/
-          echo "$PRIVATE_KEY" >> $HOME/Villalobos-aws.pem
-          sudo chmod 600 $HOME/Villalobos-aws.pem
-          export ANSIBLE_HOST_KEY_CHECKING=False
-          ansible-playbook -i inventario server.yml --become --private-key $HOME/Villalobos-aws.pem
-        continue-on-error: true
+          cd Terraform/
+          terraform plan -destroy -out tfplan
+          terraform apply tfplan 
+
+
 
