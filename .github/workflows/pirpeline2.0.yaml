@@ -73,7 +73,7 @@ jobs:
         run: |
 	        cd Ansible/
           sudo apt update
-          sudo apt install ansible -y
+          apt install ansible -y
           pip3 install "ansible-lint"
           echo "$PRIVATE_KEY" >> $HOME/Villalobos-aws.pem
           sudo chmod 600 $HOME/Villalobos-aws.pem
