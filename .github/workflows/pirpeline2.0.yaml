@@ -91,7 +91,7 @@ jobs:
           ip_aws=$( cat tfplan.txt | grep My_ip | xargs | cut -d '=' -f 2)
           curl http://$ip_aws:8080/WebGoat/login
           echo $ip_aws
-          ./arachni-1.6.1.3-0.6.1.1/bin/arachni --check=* http://$ip_aws:8080/WebGoat/login
+          ./arachni-1.6.1.3-0.6.1.1/bin/arachni http://$ip_aws:8080/WebGoat/login
         continue-on-error: true
 
       - name: Destruyendo Terraform
