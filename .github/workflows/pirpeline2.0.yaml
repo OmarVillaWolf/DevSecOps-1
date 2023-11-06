@@ -66,14 +66,14 @@ jobs:
           terraform show -json tfplan | jq > tfplan.json  
           checkov -f tfplan.json     
         continue-on-error: true
-          
+        
       - name: Ejecutar Ansible 
         env: 
           PRIVATE_KEY: ${{secrets.VILLALOBOS}}
         run: |
 	        cd Ansible/
           sudo apt update
-          apt install ansible -y
+          sudo apt install ansible -y
           pip3 install "ansible-lint"
           echo "$PRIVATE_KEY" >> $HOME/Villalobos-aws.pem
           sudo chmod 600 $HOME/Villalobos-aws.pem
