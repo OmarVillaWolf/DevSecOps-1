@@ -1,4 +1,7 @@
 name: Reportes
+
+env: 
+  my_secret: ${{ secrets.OMAR_SECRET }}
 on:
   push:
       branches:
