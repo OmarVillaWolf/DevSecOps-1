@@ -6,7 +6,7 @@ import os
 #Y_SECRET = os.environ['my_secret']
 url_api = "http://18.218.244.166:8080/api/v2/{method}"
 #api_key_code = base64.b16encode{f"{MY_SECRET}".encode("ascii")}
-api_key = os.enviro["my_secret"]
+api_key = os.environ["my_secret"]
  
     
 def upload(file_report, type_scan):
